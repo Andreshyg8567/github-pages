@@ -1,0 +1,77 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerHit Christian Radio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+        }
+        h1 {
+            margin: 0;
+        }
+        audio {
+            margin: 20px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+        footer {
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PowerHit Christian Radio</h1>
+        <p>Música cristiana en inglés y español 24/7</p>
+    </header>
+
+    <main>
+        <h2>Escúchanos en vivo</h2>
+        <audio controls autoplay>
+            <source src="https://stream.zeno.fm/7t45x7pnwakvv" type="audio/mpeg">
+            Tu navegador no soporta la reproducción de audio.
+        </audio>
+
+        <div id="nowPlaying">
+            <h3>Canción actual:</h3>
+            <p id="currentSong">Cargando...</p>
+            <p id="currentArtist">Cargando...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 PowerHit Christian Radio. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Actualiza la canción y el artista desde el servicio de Zeno.fm
+        setInterval(() => {
+            fetch('https://cors-anywhere.herokuapp.com/http://link.zeno.fm/v0wvhtwnsi6vv:80/status-json.xsl')
+                .then(response => response.json())
+                .then(data => {
+                    const song = data.icestats.source.title || "No disponible";
+                    const artist = data.icestats.source.artist || "Desconocido";
+                    document.getElementById("currentSong").innerText = song;
+                    document.getElementById("currentArtist").innerText = artist;
+                })
+                .catch(error => {
+                    console.error("Error al obtener la canción actual:", error);
+                });
+        }, 5000); // Actualiza cada 5 segundos
+    </script>
+</body>
+</html>
